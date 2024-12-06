@@ -9,6 +9,7 @@ import {
 import { Controls, useVoiceVisualizerParams } from "../types/types.ts";
 
 function useVoiceVisualizer({
+  inputDeviceId,
   onStartRecording,
   onStopRecording,
   onPausedRecording,
@@ -151,7 +152,9 @@ function useVoiceVisualizer({
     setIsProcessingStartRecording(true);
 
     navigator.mediaDevices
-      .getUserMedia({ audio: true })
+      .getUserMedia({
+        audio: inputDeviceId ? { deviceId: inputDeviceId } : true,
+      })
       .then((stream) => {
         setIsCleared(false);
         setIsProcessingStartRecording(false);

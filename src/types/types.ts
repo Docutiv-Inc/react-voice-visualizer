@@ -107,6 +107,7 @@ export type GetBarsDataParams = {
 };
 
 export interface useVoiceVisualizerParams {
+  inputDeviceId?: string;
   onStartRecording?: () => void;
   onStopRecording?: () => void;
   onPausedRecording?: () => void;
