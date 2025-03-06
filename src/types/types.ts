@@ -106,8 +106,22 @@ export type GetBarsDataParams = {
   gap: number;
 };
 
+export interface AudioStreamConfig {
+  enabled: boolean;
+  timeslice?: number;
+  onChunkAvailable?: (chunk: Blob, metadata: AudioChunkMetadata) => void;
+}
+
+export interface AudioChunkMetadata {
+  recordingId: string;
+  chunkSequence: number;
+  mimeType: string;
+  isLastChunk: boolean;
+}
+
 export interface useVoiceVisualizerParams {
   inputDeviceId?: string;
+  streamConfig?: AudioStreamConfig;
   onStartRecording?: () => void;
   onStopRecording?: () => void;
   onPausedRecording?: () => void;

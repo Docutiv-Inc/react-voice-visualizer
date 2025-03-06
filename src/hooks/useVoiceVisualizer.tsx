@@ -10,6 +10,7 @@ import { Controls, useVoiceVisualizerParams } from "../types/types.ts";
 
 function useVoiceVisualizer({
   inputDeviceId,
+  streamConfig,
   onStartRecording,
   onStopRecording,
   onPausedRecording,
@@ -42,8 +43,10 @@ function useVoiceVisualizer({
   const [error, setError] = useState<Error | null>(null);
   const [isProcessingStartRecording, setIsProcessingStartRecording] =
     useState(false);
-
+  const [chunkSequence, setChunkSequence] = useState(0);
+  
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const recordingIdRef = useRef<string>("");
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const dataArrayRef = useRef<Uint8Array | null>(null);
@@ -150,6 +153,11 @@ function useVoiceVisualizer({
 
   const getUserMedia = () => {
     setIsProcessingStartRecording(true);
+    
+    // Generate a unique recording ID for this session
+    recordingIdRef.current = `rec_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    // Reset chunk sequence counter
+    setChunkSequence(0);
 
     navigator.mediaDevices
       .getUserMedia({
@@ -174,7 +182,14 @@ function useVoiceVisualizer({
           "dataavailable",
           handleDataAvailable,
         );
-        mediaRecorderRef.current.start();
+        
+        // If streaming is enabled, use the specified timeslice
+        if (streamConfig?.enabled && streamConfig.timeslice) {
+          mediaRecorderRef.current.start(streamConfig.timeslice);
+        } else {
+          mediaRecorderRef.current.start();
+        }
+        
         if (onStartRecording) onStartRecording();
 
         recordingFrame();
@@ -195,13 +210,37 @@ function useVoiceVisualizer({
     rafRecordingRef.current = requestAnimationFrame(recordingFrame);
   };
 
-  const handleDataAvailable = (event: BlobEvent) => {
-    if (!mediaRecorderRef.current) return;
+  const handleAudioChunk = (chunk: Blob, isLastChunk: boolean = false) => {
+    if (!streamConfig || !streamConfig.enabled || !streamConfig.onChunkAvailable) {
+      return;
+    }
 
-    mediaRecorderRef.current = null;
-    audioRef.current = new Audio();
-    setRecordedBlob(event.data);
-    void processBlob(event.data);
+    if (chunk.size > 0) {
+      const metadata = {
+        recordingId: recordingIdRef.current,
+        chunkSequence: chunkSequence,
+        mimeType: mediaRecorderRef.current?.mimeType || 'audio/webm',
+        isLastChunk
+      };
+      
+      streamConfig.onChunkAvailable(chunk, metadata);
+      setChunkSequence(prev => prev + 1);
+    }
+  };
+
+  const handleDataAvailable = (event: BlobEvent) => {
+    // Process the chunk for streaming if enabled
+    if (streamConfig?.enabled && event.data.size > 0) {
+      const isLastChunk = !mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive';
+      handleAudioChunk(event.data, isLastChunk);
+    }
+
+    // If this is the final chunk (recording stopped), process it as before
+    if (!mediaRecorderRef.current) {
+      audioRef.current = new Audio();
+      setRecordedBlob(event.data);
+      void processBlob(event.data);
+    }
   };
 
   const handleTimeUpdate = () => {
