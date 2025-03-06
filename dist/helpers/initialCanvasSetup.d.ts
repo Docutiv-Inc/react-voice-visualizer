@@ -1,4 +1,5 @@
-import { GetDataForCanvasParams } from "../types/types.ts";
+import { GetDataForCanvasParams } from '../types/types.ts';
+
 export declare const initialCanvasSetup: ({ canvas, backgroundColor, }: GetDataForCanvasParams) => {
     context: CanvasRenderingContext2D;
     height: number;

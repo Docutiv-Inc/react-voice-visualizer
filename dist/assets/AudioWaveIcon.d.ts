@@ -1,4 +1,5 @@
-import { FC } from "react";
+import { FC } from 'react';
+
 interface AudioWaveIconProps {
     color?: string;
     reflect?: boolean;

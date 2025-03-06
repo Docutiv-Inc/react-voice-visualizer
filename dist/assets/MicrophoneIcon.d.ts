@@ -1,4 +1,5 @@
-import { FC } from "react";
+import { FC } from 'react';
+
 interface MicrophoneIconProps {
     color?: string;
     stroke?: number;

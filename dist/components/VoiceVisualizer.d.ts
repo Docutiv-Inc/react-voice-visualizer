@@ -1,4 +1,5 @@
-import { Controls } from "../types/types.ts";
+import { Controls } from '../types/types.ts';
+
 interface VoiceVisualizerProps {
     controls: Controls;
     height?: string | number;
