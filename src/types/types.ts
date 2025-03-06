@@ -37,6 +37,9 @@ export interface Controls {
   setPreloadedAudioBlob: (blob: Blob) => void;
   _setIsProcessingAudioOnComplete: Dispatch<SetStateAction<boolean>>;
   _setIsProcessingOnResize: Dispatch<SetStateAction<boolean>>;
+  isStreamingEnabled: boolean;
+  streamConfig: AudioStreamConfig | null;
+  setStreamConfig: (config: AudioStreamConfig | null) => void;
 }
 
 export interface BarsData {
@@ -106,6 +109,19 @@ export type GetBarsDataParams = {
   gap: number;
 };
 
+export interface AudioStreamConfig {
+  enabled: boolean;
+  timeslice?: number; // milliseconds between chunks, default 1000ms
+  onChunkAvailable?: (chunk: Blob, metadata: AudioChunkMetadata) => void; // Callback when a chunk is available
+}
+
+export interface AudioChunkMetadata {
+  recordingId: string; // Unique ID for the recording session
+  chunkSequence: number; // Sequence number of the chunk
+  mimeType: string; // MIME type of the audio data
+  isLastChunk: boolean; // Whether this is the final chunk in the recording
+}
+
 export interface useVoiceVisualizerParams {
   inputDeviceId?: string;
   onStartRecording?: () => void;
@@ -118,6 +134,7 @@ export interface useVoiceVisualizerParams {
   onPausedAudioPlayback?: () => void;
   onResumedAudioPlayback?: () => void;
   onErrorPlayingAudio?: (error: Error) => void;
+  streamConfig?: AudioStreamConfig; // Configuration for audio streaming
 }
 
 export interface UseWebWorkerParams<T> {
