@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   formatDurationTime,
@@ -6,7 +6,7 @@ import {
   formatRecordingTime,
   getFileExtensionFromMimeType,
 } from "../helpers";
-import { AudioStreamConfig, Controls, useVoiceVisualizerParams } from "../types/types.ts";
+import { Controls, useVoiceVisualizerParams } from "../types/types.ts";
 
 function useVoiceVisualizer({
   inputDeviceId,
@@ -20,7 +20,6 @@ function useVoiceVisualizer({
   onPausedAudioPlayback,
   onResumedAudioPlayback,
   onErrorPlayingAudio,
-  streamConfig,
 }: useVoiceVisualizerParams = {}): Controls {
   const [isRecordingInProgress, setIsRecordingInProgress] = useState(false);
   const [isPausedRecording, setIsPausedRecording] = useState(false);
@@ -43,10 +42,6 @@ function useVoiceVisualizer({
   const [error, setError] = useState<Error | null>(null);
   const [isProcessingStartRecording, setIsProcessingStartRecording] =
     useState(false);
-  const [currentStreamConfig, setCurrentStreamConfig] = useState<AudioStreamConfig | null>(
-    streamConfig && streamConfig.enabled ? streamConfig : null
-  );
-  const [chunkSequence, setChunkSequence] = useState(0);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -56,7 +51,6 @@ function useVoiceVisualizer({
   const rafRecordingRef = useRef<number | null>(null);
   const rafCurrentTimeUpdateRef = useRef<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const recordingIdRef = useRef<string>("");
 
   const isAvailableRecordedAudio = Boolean(
     bufferFromRecordedBlob && !isProcessingAudioOnComplete,
@@ -156,9 +150,6 @@ function useVoiceVisualizer({
 
   const getUserMedia = () => {
     setIsProcessingStartRecording(true);
-    // Generate a unique ID for this recording session
-    recordingIdRef.current = `rec_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-    setChunkSequence(0);
 
     navigator.mediaDevices
       .getUserMedia({
@@ -183,15 +174,7 @@ function useVoiceVisualizer({
           "dataavailable",
           handleDataAvailable,
         );
-        
-        // If streaming is enabled, use timeslice to get chunks during recording
-        if (currentStreamConfig?.enabled) {
-          const timeslice = currentStreamConfig.timeslice || 1000; // Default to 1 second chunks
-          mediaRecorderRef.current.start(timeslice);
-        } else {
-          mediaRecorderRef.current.start();
-        }
-        
+        mediaRecorderRef.current.start();
         if (onStartRecording) onStartRecording();
 
         recordingFrame();
@@ -212,44 +195,14 @@ function useVoiceVisualizer({
     rafRecordingRef.current = requestAnimationFrame(recordingFrame);
   };
 
-  const handleAudioChunk = useCallback((chunk: Blob, isLastChunk: boolean = false) => {
-    if (!currentStreamConfig || !currentStreamConfig.enabled || !currentStreamConfig.onChunkAvailable) {
-      return;
-    }
-
-    if (chunk.size > 0) {
-      const metadata = {
-        recordingId: recordingIdRef.current,
-        chunkSequence: chunkSequence,
-        mimeType: mediaRecorderRef.current?.mimeType || 'audio/webm',
-        isLastChunk
-      };
-      
-      currentStreamConfig.onChunkAvailable(chunk, metadata);
-      setChunkSequence(prev => prev + 1);
-    }
-  }, [currentStreamConfig, chunkSequence]);
-
-  const handleDataAvailable = useCallback((event: BlobEvent) => {
-    // If this is a streaming chunk (not the final one)
-    if (mediaRecorderRef.current && currentStreamConfig?.enabled) {
-      handleAudioChunk(event.data, false);
-      return;
-    }
-
-    // This is the final chunk or we're not streaming
+  const handleDataAvailable = (event: BlobEvent) => {
     if (!mediaRecorderRef.current) return;
-
-    // If streaming is enabled, send the final chunk with isLastChunk=true
-    if (currentStreamConfig?.enabled) {
-      handleAudioChunk(event.data, true);
-    }
 
     mediaRecorderRef.current = null;
     audioRef.current = new Audio();
     setRecordedBlob(event.data);
     void processBlob(event.data);
-  }, [currentStreamConfig, handleAudioChunk]);
+  };
 
   const handleTimeUpdate = () => {
     if (!audioRef.current) return;
@@ -427,10 +380,6 @@ function useVoiceVisualizer({
     URL.revokeObjectURL(audioSrc);
   };
 
-  const setStreamConfig = useCallback((config: AudioStreamConfig | null) => {
-    setCurrentStreamConfig(config);
-  }, []);
-
   return {
     audioRef,
     isRecordingInProgress,
@@ -463,9 +412,6 @@ function useVoiceVisualizer({
     setPreloadedAudioBlob,
     _setIsProcessingAudioOnComplete,
     _setIsProcessingOnResize,
-    isStreamingEnabled: Boolean(currentStreamConfig?.enabled),
-    streamConfig: currentStreamConfig,
-    setStreamConfig,
   };
 }
 
