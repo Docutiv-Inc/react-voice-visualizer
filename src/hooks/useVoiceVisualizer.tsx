@@ -6,7 +6,11 @@ import {
   formatRecordingTime,
   getFileExtensionFromMimeType,
 } from "../helpers";
-import { Controls, useVoiceVisualizerParams, PCMChunkMetadata } from "../types/types.ts";
+import {
+  Controls,
+  useVoiceVisualizerParams,
+  PCMChunkMetadata,
+} from "../types/types.ts";
 
 function useVoiceVisualizer({
   inputDeviceId,
@@ -45,7 +49,7 @@ function useVoiceVisualizer({
     useState(false);
   const [chunkSequence, setChunkSequence] = useState(0);
   const [pcmChunkSequence, setPcmChunkSequence] = useState(0);
-  
+
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordingIdRef = useRef<string>("");
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -58,7 +62,7 @@ function useVoiceVisualizer({
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const isAvailableRecordedAudio = Boolean(
-    bufferFromRecordedBlob && !isProcessingAudioOnComplete,
+    bufferFromRecordedBlob && !isProcessingAudioOnComplete
   );
   const formattedDuration = formatDurationTime(duration);
   const formattedRecordingTime = formatRecordingTime(recordingTime);
@@ -133,7 +137,7 @@ function useVoiceVisualizer({
       setError(
         error instanceof Error
           ? error
-          : new Error("Error processing the audio blob"),
+          : new Error("Error processing the audio blob")
       );
     }
   };
@@ -154,35 +158,42 @@ function useVoiceVisualizer({
   };
 
   const handlePCMData = (audioProcessingEvent: AudioProcessingEvent) => {
-    if (!streamConfig?.usePCM || !streamConfig.onPCMAvailable || isPausedRecording) {
+    if (
+      !streamConfig?.usePCM ||
+      !streamConfig.onPCMAvailable ||
+      isPausedRecording
+    ) {
       return;
     }
-    
+
     // Get PCM data from the input buffer
     const inputBuffer = audioProcessingEvent.inputBuffer;
     const channelData = inputBuffer.getChannelData(0); // Get data from first channel
-    
+
     // Create a copy of the data since the original buffer will be reused
     const pcmData = new Float32Array(channelData);
-    
+
     const isLastChunk = !isRecordingInProgress || isPausedRecording;
-    
+
+    // Use the custom sample rate if provided, otherwise use the actual sample rate
+    const sampleRate = streamConfig.pcmSampleRate || inputBuffer.sampleRate;
+
     // Create metadata for the PCM chunk
     const metadata: PCMChunkMetadata = {
       recordingId: recordingIdRef.current,
       chunkSequence: pcmChunkSequence,
-      sampleRate: inputBuffer.sampleRate,
-      isLastChunk
+      sampleRate: sampleRate,
+      isLastChunk,
     };
-    
+
     // Send PCM data to callback
     streamConfig.onPCMAvailable(pcmData, metadata);
-    setPcmChunkSequence(prev => prev + 1);
+    setPcmChunkSequence((prev) => prev + 1);
   };
 
   const getUserMedia = () => {
     setIsProcessingStartRecording(true);
-    
+
     // Generate a unique recording ID for this session
     recordingIdRef.current = `rec_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
     // Reset chunk sequence counters
@@ -202,43 +213,50 @@ function useVoiceVisualizer({
         audioContextRef.current = new window.AudioContext();
         analyserRef.current = audioContextRef.current.createAnalyser();
         dataArrayRef.current = new Uint8Array(
-          analyserRef.current.frequencyBinCount,
+          analyserRef.current.frequencyBinCount
         );
         sourceRef.current =
           audioContextRef.current.createMediaStreamSource(stream);
         sourceRef.current.connect(analyserRef.current);
-        
+
         // Set up PCM processing if enabled
         if (streamConfig?.usePCM && streamConfig.onPCMAvailable) {
-          // Use ScriptProcessorNode for PCM data (will be replaced with AudioWorklet in future)
-          const bufferSize = 4096;
-          scriptProcessorRef.current = audioContextRef.current.createScriptProcessor(
-            bufferSize, 
-            1, // input channels
-            1  // output channels
-          );
-          
+          // Use custom buffer size if provided, otherwise use default
+          const bufferSize = streamConfig.pcmBufferSize || 4096;
+
+          scriptProcessorRef.current =
+            audioContextRef.current.createScriptProcessor(
+              bufferSize,
+              1, // input channels
+              1 // output channels
+            );
+
           // Connect the processor to the source and destination
           sourceRef.current.connect(scriptProcessorRef.current);
-          scriptProcessorRef.current.connect(audioContextRef.current.destination);
-          
+          scriptProcessorRef.current.connect(
+            audioContextRef.current.destination
+          );
+
           // Add event listener for processing audio
-          scriptProcessorRef.current.addEventListener('audioprocess', handlePCMData);
+          scriptProcessorRef.current.addEventListener(
+            "audioprocess",
+            handlePCMData
+          );
         }
-        
+
         mediaRecorderRef.current = new MediaRecorder(stream);
         mediaRecorderRef.current.addEventListener(
           "dataavailable",
-          handleDataAvailable,
+          handleDataAvailable
         );
-        
+
         // If streaming is enabled, use the specified timeslice
         if (streamConfig?.enabled && streamConfig.timeslice) {
           mediaRecorderRef.current.start(streamConfig.timeslice);
         } else {
           mediaRecorderRef.current.start();
         }
-        
+
         if (onStartRecording) onStartRecording();
 
         recordingFrame();
@@ -248,7 +266,7 @@ function useVoiceVisualizer({
         setError(
           error instanceof Error
             ? error
-            : new Error("Error starting audio recording"),
+            : new Error("Error starting audio recording")
         );
       });
   };
@@ -260,7 +278,11 @@ function useVoiceVisualizer({
   };
 
   const handleAudioChunk = (chunk: Blob, isLastChunk: boolean = false) => {
-    if (!streamConfig || !streamConfig.enabled || !streamConfig.onChunkAvailable) {
+    if (
+      !streamConfig ||
+      !streamConfig.enabled ||
+      !streamConfig.onChunkAvailable
+    ) {
       return;
     }
 
@@ -268,19 +290,21 @@ function useVoiceVisualizer({
       const metadata = {
         recordingId: recordingIdRef.current,
         chunkSequence: chunkSequence,
-        mimeType: mediaRecorderRef.current?.mimeType || 'audio/webm',
-        isLastChunk
+        mimeType: mediaRecorderRef.current?.mimeType || "audio/webm",
+        isLastChunk,
       };
-      
+
       streamConfig.onChunkAvailable(chunk, metadata);
-      setChunkSequence(prev => prev + 1);
+      setChunkSequence((prev) => prev + 1);
     }
   };
 
   const handleDataAvailable = (event: BlobEvent) => {
     // Process the chunk for streaming if enabled
     if (streamConfig?.enabled && event.data.size > 0) {
-      const isLastChunk = !mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive';
+      const isLastChunk =
+        !mediaRecorderRef.current ||
+        mediaRecorderRef.current.state === "inactive";
       handleAudioChunk(event.data, isLastChunk);
     }
 
@@ -311,32 +335,45 @@ function useVoiceVisualizer({
     if (!isRecordingInProgress) return;
 
     setIsRecordingInProgress(false);
-    
+
     // Send final PCM chunk if PCM streaming is enabled
-    if (streamConfig?.usePCM && streamConfig.onPCMAvailable && scriptProcessorRef.current) {
+    if (
+      streamConfig?.usePCM &&
+      streamConfig.onPCMAvailable &&
+      scriptProcessorRef.current
+    ) {
+      // Use the custom sample rate if provided, otherwise use the actual sample rate
+      const sampleRate =
+        streamConfig.pcmSampleRate ||
+        audioContextRef.current?.sampleRate ||
+        44100;
+
       const metadata: PCMChunkMetadata = {
         recordingId: recordingIdRef.current,
         chunkSequence: pcmChunkSequence,
-        sampleRate: audioContextRef.current?.sampleRate || 44100,
-        isLastChunk: true
+        sampleRate: sampleRate,
+        isLastChunk: true,
       };
-      
+
       // Send an empty array as the final chunk to signal the end
       streamConfig.onPCMAvailable(new Float32Array(0), metadata);
-      
+
       // Disconnect and clean up the script processor
-      scriptProcessorRef.current.removeEventListener('audioprocess', handlePCMData);
+      scriptProcessorRef.current.removeEventListener(
+        "audioprocess",
+        handlePCMData
+      );
       if (sourceRef.current) {
         sourceRef.current.disconnect(scriptProcessorRef.current);
       }
       scriptProcessorRef.current.disconnect();
     }
-    
+
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
       mediaRecorderRef.current.removeEventListener(
         "dataavailable",
-        handleDataAvailable,
+        handleDataAvailable
       );
     }
     audioStream?.getTracks().forEach((track) => track.stop());
@@ -363,7 +400,7 @@ function useVoiceVisualizer({
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.removeEventListener(
         "dataavailable",
-        handleDataAvailable,
+        handleDataAvailable
       );
       mediaRecorderRef.current.stop();
       mediaRecorderRef.current = null;
@@ -371,7 +408,10 @@ function useVoiceVisualizer({
 
     // Clean up script processor if it exists
     if (scriptProcessorRef.current) {
-      scriptProcessorRef.current.removeEventListener('audioprocess', handlePCMData);
+      scriptProcessorRef.current.removeEventListener(
+        "audioprocess",
+        handlePCMData
+      );
       if (sourceRef.current) {
         sourceRef.current.disconnect(scriptProcessorRef.current);
       }
@@ -420,7 +460,7 @@ function useVoiceVisualizer({
           console.error(error);
           if (onErrorPlayingAudio) {
             onErrorPlayingAudio(
-              error instanceof Error ? error : new Error("Error playing audio"),
+              error instanceof Error ? error : new Error("Error playing audio")
             );
           }
         });
@@ -490,7 +530,7 @@ function useVoiceVisualizer({
     if (!recordedBlob) return;
 
     const fileExtension = getFileExtensionFromMimeType(
-      recordedBlob.type || "audio/webm",
+      recordedBlob.type || "audio/webm"
     );
     const fileName = `recording-${new Date().toISOString()}.${fileExtension}`;
     const url = URL.createObjectURL(recordedBlob);

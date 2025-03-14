@@ -112,7 +112,8 @@ export interface AudioStreamConfig {
   onChunkAvailable?: (chunk: Blob, metadata: AudioChunkMetadata) => void;
   usePCM?: boolean;
   onPCMAvailable?: (pcmData: Float32Array, metadata: PCMChunkMetadata) => void;
-  pcmSampleRate?: number;
+  pcmSampleRate?: number; // Custom sample rate for PCM data (defaults to AudioContext sample rate)
+  pcmBufferSize?: number; // Custom buffer size for ScriptProcessorNode (defaults to 4096)
 }
 
 export interface AudioChunkMetadata {

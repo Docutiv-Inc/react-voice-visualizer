@@ -1,22 +1,22 @@
 (function(){"use strict";(e=>{try{if(typeof window>"u")return;var i=document.createElement("style");i.appendChild(document.createTextNode(e)),document.head.appendChild(i)}catch(o){console.error("vite-plugin-css-injected-by-js",o)}})(".voice-visualizer__buttons-container{display:flex;justify-content:center;align-items:center;column-gap:20px;row-gap:15px;flex-wrap:wrap;margin-bottom:40px}.voice-visualizer__btn-center{box-sizing:border-box;flex-shrink:0;width:60px;height:60px;padding:0;display:flex;justify-content:center;align-items:center;border-radius:50%;background-color:#fff;border:4px solid #c5c5c5;outline:none;cursor:pointer;transition:border-color .3s,background-color .3s}.voice-visualizer__btn-center:disabled{opacity:.85;cursor:default}.voice-visualizer__btn-center:hover{background-color:#eaeaea;border:4px solid #9f9f9f}.voice-visualizer__btn-center>img{width:auto;height:50%;max-height:30px}.voice-visualizer__btn-center.voice-visualizer__btn-center-pause{background-color:#ff3030}.voice-visualizer__btn-center.voice-visualizer__btn-center-pause:hover{background-color:#ff4f4f}.voice-visualizer__btn-center.voice-visualizer__btn-center-pause>img{height:50%;max-height:16px}.voice-visualizer__btn-center.voice-visualizer__btn-center--border-transparent{border-color:transparent}.voice-visualizer__btn-center.voice-visualizer__btn-center--border-transparent:hover{background-color:#fff}.voice-visualizer__btn-left{box-sizing:border-box;flex-shrink:0;width:60px;height:60px;padding:0;display:flex;justify-content:center;align-items:center;border-radius:50%;background-color:#ff3030;border:4px solid #c5c5c5;outline:none;cursor:pointer;transition:border-color .3s,background-color .3s,opacity .3s}.voice-visualizer__btn-container{min-width:100px;display:flex;justify-content:flex-end}.voice-visualizer__btn-left:hover{background-color:#ff4f4f}.voice-visualizer__btn-left:disabled{opacity:.6;background-color:#ff3030;cursor:default}.voice-visualizer__btn-left.voice-visualizer__btn-left-microphone{background-color:#fff}.voice-visualizer__btn-left.voice-visualizer__btn-left-microphone>img{width:auto;height:50%;max-height:30px}.voice-visualizer__btn-left>img{width:auto;height:50%;max-height:16px}.voice-visualizer__btn-left:hover{border:4px solid #9f9f9f}.voice-visualizer__btn{box-sizing:border-box;min-width:100px;min-height:60px;padding:5px 20px;border-radius:40px;font-size:15px;background-color:#f0f0f0;transition:background-color .3s,opacity .3s}.voice-visualizer__btn:disabled{opacity:.8;background-color:#f0f0f0;cursor:default}.voice-visualizer__btn:hover{background-color:#bebebe}.voice-visualizer__canvas-container{position:relative;width:fit-content;margin:0 auto;overflow:hidden}.voice-visualizer__canvas-container canvas{display:block}.voice-visualizer__canvas-microphone-btn{position:absolute;top:50%;left:50%;width:auto;max-width:12%;min-width:24px;height:50%;max-height:100px;background-color:transparent;border:none;outline:none;transform:translate(-50%,-50%)}.voice-visualizer__canvas-microphone-icon{width:100%;height:100%;will-change:transform;transition:transform .3s}.voice-visualizer__canvas-microphone-btn:hover .voice-visualizer__canvas-microphone-icon{transform:scale(1.03)}.voice-visualizer__canvas-audio-wave-icon{position:absolute;top:50%;left:50%;width:auto;max-width:40%;height:40%;max-height:100px;transform:translate(-118%,-50%) scale(-1)}.voice-visualizer__canvas-audio-wave-icon2{transform:translate(18%,-50%)}.voice-visualizer__canvas-audio-processing{position:absolute;top:50%;left:50%;margin:0;transform:translate(-50%,-50%)}.voice-visualizer__progress-indicator-hovered{position:absolute;top:0;pointer-events:none;height:100%;width:1px;background-color:#85858599}.voice-visualizer__progress-indicator-hovered-time{position:absolute;top:3%;left:1px;width:fit-content;margin:0;padding:0 7px;opacity:.8;font-size:12px;border-radius:0 4px 4px 0;background-color:#575757;text-align:left}.voice-visualizer__progress-indicator-hovered-time.voice-visualizer__progress-indicator-hovered-time-left{left:unset;right:1px;border-radius:4px 0 0 4px}.voice-visualizer__progress-indicator{position:absolute;top:0;pointer-events:none;height:100%;width:1px;background-color:#efefef}.voice-visualizer__progress-indicator-time{position:absolute;top:3%;left:1px;width:fit-content;box-sizing:border-box;min-width:37px;margin:0;padding:0 7px;font-size:12px;border-radius:0 4px 4px 0;text-align:left;color:#000;font-weight:500;background-color:#efefef}.voice-visualizer__progress-indicator-time.voice-visualizer__progress-indicator-time-left{left:unset;right:1px;border-radius:4px 0 0 4px}.voice-visualizer__audio-info-container{box-sizing:border-box;height:55px;display:flex;align-items:center;justify-content:center;gap:30px}.voice-visualizer__audio-info-time{margin:15px 0;min-width:38px;text-align:left}.voice-visualizer__visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:4px solid #c5c5c5;white-space:nowrap;clip-path:inset(100%);clip:rect(0 0 0 0);overflow:hidden}.voice-visualizer__relative{position:relative}.voice-visualizer__spinner-wrapper{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:52px;height:52px;display:flex;justify-content:center;align-items:center}.voice-visualizer__spinner{flex-shrink:0;width:100%;height:100%;border:4px solid rgba(197,197,197,.5);border-radius:50%;border-top-color:#b7b7b7;animation:voice-visualizer__spin 1s ease-in-out infinite;-webkit-animation:voice-visualizer__spin 1s ease-in-out infinite}@keyframes voice-visualizer__spin{to{transform:rotate(360deg)}}@-webkit-keyframes voice-visualizer__spin{to{transform:rotate(360deg)}}")})();
 import { jsx as o, jsxs as ne, Fragment as Qe } from "react/jsx-runtime";
-import { useState as u, useRef as S, useCallback as nt, useLayoutEffect as et, useEffect as U } from "react";
-const Ge = ({
+import { useState as u, useRef as N, useCallback as nt, useLayoutEffect as et, useEffect as Z } from "react";
+const Be = ({
   canvas: t,
   backgroundColor: e
 }) => {
   const r = t.height, n = t.width, i = Math.round(n / 2), h = t.getContext("2d");
   return h ? (h.clearRect(0, 0, n, r), e !== "transparent" && (h.fillStyle = e, h.fillRect(0, 0, n, r)), { context: h, height: r, width: n, halfWidth: i }) : null;
-}, Ze = ({
+}, Fe = ({
   context: t,
   color: e,
   rounded: r,
   x: n,
   y: i,
   w: h,
-  h: N
+  h: A
 }) => {
-  t.fillStyle = e, t.beginPath(), t.roundRect ? (t.roundRect(n, i, h, N, r), t.fill()) : t.fillRect(n, i, h, N);
+  t.fillStyle = e, t.beginPath(), t.roundRect ? (t.roundRect(n, i, h, A, r), t.fill()) : t.fillRect(n, i, h, A);
 }, ct = ({
   barsData: t,
   canvas: e,
@@ -24,23 +24,23 @@ const Ge = ({
   gap: n,
   backgroundColor: i,
   mainBarColor: h,
-  secondaryBarColor: N,
+  secondaryBarColor: A,
   currentAudioTime: v = 0,
   rounded: L,
   duration: p
 }) => {
-  const A = Ge({ canvas: e, backgroundColor: i });
-  if (!A)
+  const y = Be({ canvas: e, backgroundColor: i });
+  if (!y)
     return;
-  const { context: D, height: f } = A, j = v / p;
+  const { context: D, height: z } = y, j = v / p;
   t.forEach((m, w) => {
-    const z = w / t.length, a = j > z;
-    Ze({
+    const f = w / t.length, a = j > f;
+    Fe({
       context: D,
-      color: a ? N : h,
+      color: a ? A : h,
       rounded: L,
       x: w * (r + n * r),
-      y: f / 2 - m.max,
+      y: z / 2 - m.max,
       h: m.max * 2,
       w: r
     });
@@ -54,7 +54,7 @@ function it({
   height: i,
   barWidth: h
 }) {
-  Ze({
+  Fe({
     context: t,
     color: e,
     rounded: r,
@@ -71,62 +71,62 @@ const st = ({
   index2: n,
   canvas: i,
   isRecordingInProgress: h,
-  isPausedRecording: N,
+  isPausedRecording: A,
   picks: v,
   backgroundColor: L,
   barWidth: p,
-  mainBarColor: A,
+  mainBarColor: y,
   secondaryBarColor: D,
-  rounded: f,
+  rounded: z,
   animateCurrentPick: j,
   fullscreen: m
 }) => {
-  const w = Ge({ canvas: i, backgroundColor: L });
+  const w = Be({ canvas: i, backgroundColor: L });
   if (!w)
     return;
-  const { context: z, height: a, width: Z, halfWidth: F } = w;
+  const { context: f, height: a, width: C, halfWidth: F } = w;
   if (t != null && t.length && h) {
     const _ = Math.max(...t);
-    if (!N) {
+    if (!A) {
       if (n.current >= p) {
         n.current = 0;
         const T = (a - _ / 258 * a) / a * 100, Q = (-a + _ / 258 * a * 2) / a * 100, ie = r.current === p ? {
           startY: T,
           barHeight: Q
         } : null;
-        r.current >= e ? r.current = p : r.current += p, v.length > (m ? Z : F) / p && v.pop(), v.unshift(ie);
+        r.current >= e ? r.current = p : r.current += p, v.length > (m ? C : F) / p && v.pop(), v.unshift(ie);
       }
       n.current += 1;
     }
-    !m && ce(), j && Ze({
-      context: z,
-      rounded: f,
-      color: A,
-      x: m ? Z : F,
+    !m && ce(), j && Fe({
+      context: f,
+      rounded: z,
+      color: y,
+      x: m ? C : F,
       y: a - _ / 258 * a,
       h: -a + _ / 258 * a * 2,
       w: p
     });
-    let R = (m ? Z : F) - n.current;
+    let U = (m ? C : F) - n.current;
     v.forEach((T) => {
-      T && Ze({
-        context: z,
-        color: A,
-        rounded: f,
-        x: R,
+      T && Fe({
+        context: f,
+        color: y,
+        rounded: z,
+        x: U,
         y: T.startY * a / 100 > a / 2 - 1 ? a / 2 - 1 : T.startY * a / 100,
         h: T.barHeight * a / 100 > 2 ? T.barHeight * a / 100 : 2,
         w: p
-      }), R -= p;
+      }), U -= p;
     });
   } else
     v.length = 0;
   function ce() {
     it({
-      context: z,
+      context: f,
       color: D,
-      rounded: f,
-      width: Z,
+      rounded: z,
+      width: C,
       height: a,
       barWidth: p
     });
@@ -167,22 +167,22 @@ const ot = ({
   barWidth: n,
   gap: i
 }) => {
-  const h = r / (n + i * n), N = Math.floor(t.length / h), v = e / 2;
+  const h = r / (n + i * n), A = Math.floor(t.length / h), v = e / 2;
   let L = [], p = 0;
-  for (let A = 0; A < h; A++) {
+  for (let y = 0; y < h; y++) {
     const D = [];
-    let f = 0;
-    for (let m = 0; m < N && A * N + m < t.length; m++) {
-      const w = t[A * N + m];
-      w > 0 && (D.push(w), f++);
+    let z = 0;
+    for (let m = 0; m < A && y * A + m < t.length; m++) {
+      const w = t[y * A + m];
+      w > 0 && (D.push(w), z++);
     }
-    const j = D.reduce((m, w) => m + w, 0) / f;
+    const j = D.reduce((m, w) => m + w, 0) / z;
     j > p && (p = j), L.push({ max: j });
   }
   if (v * 0.95 > p * v) {
-    const A = v * 0.95 / p;
+    const y = v * 0.95 / p;
     L = L.map((D) => ({
-      max: D.max > 0.01 ? D.max * A : 1
+      max: D.max > 0.01 ? D.max * y : 1
     }));
   }
   return L;
@@ -217,7 +217,7 @@ function mt({
   return {
     result: n,
     setResult: i,
-    run: (N) => {
+    run: (A) => {
       const v = new Worker(
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         URL.createObjectURL(new Blob([`(${lt})(${t})`]))
@@ -226,12 +226,12 @@ function mt({
         L.data && (i(L.data), r && r(), v.terminate());
       }, v.onerror = (L) => {
         console.error(L.message), v.terminate();
-      }, v.postMessage(N);
+      }, v.postMessage(A);
     }
   };
 }
 const vt = (t, e = 250) => {
-  const r = S();
+  const r = N();
   return nt(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (...n) => {
@@ -244,12 +244,12 @@ const vt = (t, e = 250) => {
   );
 };
 function dt(t) {
-  const e = S(t);
+  const e = N(t);
   return et(() => {
     e.current = t;
   }, [t]), e;
 }
-const ft = ({
+const zt = ({
   color: t = "#000000",
   stroke: e = 2,
   className: r
@@ -288,7 +288,7 @@ const ft = ({
       }
     )
   }
-), Xe = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjMiIGhlaWdodD0iMzMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGggZD0iTTEuMSAxNi43MmMwIDMgLjk2IDUuOCAzLjYxIDcuOTVhOS45NiA5Ljk2IDAgMCAwIDYuNSAyLjE3bTAgMHY0LjM0aDQuMzQtOC42N200LjM0LTQuMzRjMi4zNSAwIDQuNDItLjQ4IDYuNS0yLjE3YTkuODcgOS44NyAwIDAgMCAzLjYxLTcuOTVNMTEuMjIgMS44MmMtMS40NSAwLTIuNS4zNy0zLjMuOTNhNS42IDUuNiAwIDAgMC0xLjg0IDIuNGMtLjkgMi4wNi0xLjEgNC43Ny0xLjEgNy4yNCAwIDIuNDYuMiA1LjE3IDEuMSA3LjI0YTUuNiA1LjYgMCAwIDAgMS44NCAyLjRjLjguNTUgMS44NS45MiAzLjMuOTIgMS40NCAwIDIuNS0uMzcgMy4yOS0uOTNhNS42IDUuNiAwIDAgMCAxLjg0LTIuNGMuOS0yLjA2IDEuMS00Ljc3IDEuMS03LjIzIDAtMi40Ny0uMi01LjE4LTEuMS03LjI0YTUuNiA1LjYgMCAwIDAtMS44NC0yLjQgNS41MiA1LjUyIDAgMCAwLTMuMy0uOTNaIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K", zt = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGggZD0iTTE4Ljc1IDYuMTZjNC4zMSAyLjYgNi40NiAzLjkgNi40NiA1Ljg0IDAgMS45NS0yLjE1IDMuMjQtNi40NiA1Ljg0bC00Ljg0IDIuOTJjLTQuMzEgMi42LTYuNDYgMy44OS04LjA4IDIuOTItMS42Mi0uOTgtMS42Mi0zLjU3LTEuNjItOC43NlY5LjA4YzAtNS4xOSAwLTcuNzggMS42Mi04Ljc2IDEuNjItLjk3IDMuNzcuMzMgOC4wOCAyLjkybDQuODQgMi45MloiIGZpbGw9IiNmZmYiLz4KPC9zdmc+Cg==", Ke = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMjkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGggZD0iTTE0IDMuNWEzLjUgMy41IDAgMSAxIDcgMHYyMmEzLjUgMy41IDAgMSAxLTcgMHYtMjJaIiBmaWxsPSIjZmZmIi8+CiAgPHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjkiIHJ4PSIzLjUiIGZpbGw9IiNmZmYiLz4KPC9zdmc+Cg==", Mt = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjciIGhlaWdodD0iMjUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHJlY3QgeD0iLjIxIiB3aWR0aD0iMjYiIGhlaWdodD0iMjUiIHJ4PSI1IiBmaWxsPSIjZmZmIi8+Cjwvc3ZnPgo=", It = ({
+), Xe = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjMiIGhlaWdodD0iMzMiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGggZD0iTTEuMSAxNi43MmMwIDMgLjk2IDUuOCAzLjYxIDcuOTVhOS45NiA5Ljk2IDAgMCAwIDYuNSAyLjE3bTAgMHY0LjM0aDQuMzQtOC42N200LjM0LTQuMzRjMi4zNSAwIDQuNDItLjQ4IDYuNS0yLjE3YTkuODcgOS44NyAwIDAgMCAzLjYxLTcuOTVNMTEuMjIgMS44MmMtMS40NSAwLTIuNS4zNy0zLjMuOTNhNS42IDUuNiAwIDAgMC0xLjg0IDIuNGMtLjkgMi4wNi0xLjEgNC43Ny0xLjEgNy4yNCAwIDIuNDYuMiA1LjE3IDEuMSA3LjI0YTUuNiA1LjYgMCAwIDAgMS44NCAyLjRjLjguNTUgMS44NS45MiAzLjMuOTIgMS40NCAwIDIuNS0uMzcgMy4yOS0uOTNhNS42IDUuNiAwIDAgMCAxLjg0LTIuNGMuOS0yLjA2IDEuMS00Ljc3IDEuMS03LjIzIDAtMi40Ny0uMi01LjE4LTEuMS03LjI0YTUuNiA1LjYgMCAwIDAtMS44NC0yLjQgNS41MiA1LjUyIDAgMCAwLTMuMy0uOTNaIiBzdHJva2U9IiMwMDAiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K", ft = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjYiIGhlaWdodD0iMjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGggZD0iTTE4Ljc1IDYuMTZjNC4zMSAyLjYgNi40NiAzLjkgNi40NiA1Ljg0IDAgMS45NS0yLjE1IDMuMjQtNi40NiA1Ljg0bC00Ljg0IDIuOTJjLTQuMzEgMi42LTYuNDYgMy44OS04LjA4IDIuOTItMS42Mi0uOTgtMS42Mi0zLjU3LTEuNjItOC43NlY5LjA4YzAtNS4xOSAwLTcuNzggMS42Mi04Ljc2IDEuNjItLjk3IDMuNzcuMzMgOC4wOCAyLjkybDQuODQgMi45MloiIGZpbGw9IiNmZmYiLz4KPC9zdmc+Cg==", Ke = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMjkiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGggZD0iTTE0IDMuNWEzLjUgMy41IDAgMSAxIDcgMHYyMmEzLjUgMy41IDAgMSAxLTcgMHYtMjJaIiBmaWxsPSIjZmZmIi8+CiAgPHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjkiIHJ4PSIzLjUiIGZpbGw9IiNmZmYiLz4KPC9zdmc+Cg==", Mt = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjciIGhlaWdodD0iMjUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHJlY3QgeD0iLjIxIiB3aWR0aD0iMjYiIGhlaWdodD0iMjUiIHJ4PSI1IiBmaWxsPSIjZmZmIi8+Cjwvc3ZnPgo=", It = ({
   controls: {
     audioRef: t,
     audioData: e,
@@ -296,23 +296,23 @@ const ft = ({
     recordedBlob: n,
     duration: i,
     currentAudioTime: h,
-    audioSrc: N,
+    audioSrc: A,
     bufferFromRecordedBlob: v,
     togglePauseResume: L,
     startRecording: p,
-    stopRecording: A,
+    stopRecording: y,
     saveAudioFile: D,
-    isAvailableRecordedAudio: f,
+    isAvailableRecordedAudio: z,
     isPausedRecordedAudio: j,
     isPausedRecording: m,
     isProcessingStartRecording: w,
-    isProcessingRecordedAudio: z,
+    isProcessingRecordedAudio: f,
     isCleared: a,
-    formattedDuration: Z,
+    formattedDuration: C,
     formattedRecordingTime: F,
     formattedRecordedAudioCurrentTime: ce,
     clearCanvas: _,
-    setCurrentAudioTime: R,
+    setCurrentAudioTime: U,
     isProcessingOnResize: T,
     _setIsProcessingOnResize: Q,
     _setIsProcessingAudioOnComplete: ie
@@ -339,7 +339,7 @@ const ft = ({
   isProgressIndicatorShown: ue = !k,
   progressIndicatorClassName: _e,
   isProgressIndicatorTimeShown: he = !0,
-  progressIndicatorTimeClassName: Fe,
+  progressIndicatorTimeClassName: ke,
   isProgressIndicatorOnHoverShown: Ee = !k,
   progressIndicatorOnHoverClassName: xe,
   isProgressIndicatorTimeOnHoverShown: $e = !0,
@@ -348,9 +348,9 @@ const ft = ({
   audioProcessingTextClassName: E,
   controlButtonsClassName: Y
 }) => {
-  const [G, x] = u(0), [d, H] = u(0), [$, l] = u(0), [me, ke] = u(0), [ve, He] = u(!1), [Pe, Se] = u(window.innerWidth), [Ne, Oe] = u(!1), de = Pe < 768, fe = Math.trunc(pe), B = Math.trunc(Ie), C = Math.trunc(
+  const [G, x] = u(0), [d, H] = u(0), [$, l] = u(0), [me, Ye] = u(0), [ve, He] = u(!1), [Pe, Se] = u(window.innerWidth), [Ne, Oe] = u(!1), de = Pe < 768, ze = Math.trunc(pe), B = Math.trunc(Ie), R = Math.trunc(
     de && B > 0 ? ge + 1 : ge
-  ), Ae = C + B * C, I = S(null), Ce = S([]), ze = S(fe), ee = S(C), Ye = S(C), te = S(null), ye = dt(Pe), {
+  ), Ae = R + B * R, I = N(null), Re = N([]), fe = N(ze), ee = N(R), Ge = N(R), te = N(null), ye = dt(Pe), {
     result: re,
     setResult: c,
     run: s
@@ -358,37 +358,37 @@ const ft = ({
     fn: ot,
     initialValue: [],
     onMessageReceived: W
-  }), y = vt(M);
-  U(() => {
+  }), S = vt(M);
+  Z(() => {
     M();
     const b = () => {
-      ye.current !== window.innerWidth && (f ? (Se(window.innerWidth), Q(!0), Oe(!0), y()) : (Se(window.innerWidth), M()));
+      ye.current !== window.innerWidth && (z ? (Se(window.innerWidth), Q(!0), Oe(!0), S()) : (Se(window.innerWidth), M()));
     };
     return window.addEventListener("resize", b), () => {
       window.removeEventListener("resize", b);
     };
-  }, [Me, f]), et(() => {
-    I.current && ((ze.current >= fe || !e.length) && (ze.current = e.length ? 0 : fe, st({
+  }, [Me, z]), et(() => {
+    I.current && ((fe.current >= ze || !e.length) && (fe.current = e.length ? 0 : ze, st({
       audioData: e,
       unit: Ae,
       index: ee,
-      index2: Ye,
+      index2: Ge,
       canvas: I.current,
-      picks: Ce.current,
+      picks: Re.current,
       isRecordingInProgress: r,
       isPausedRecording: m,
       backgroundColor: P,
       mainBarColor: O,
       secondaryBarColor: q,
-      barWidth: C,
+      barWidth: R,
       rounded: se,
       animateCurrentPick: X,
       fullscreen: K
-    })), ze.current += 1);
+    })), fe.current += 1);
   }, [
     I.current,
     e,
-    C,
+    R,
     P,
     O,
     q,
@@ -396,14 +396,14 @@ const ft = ({
     K,
     we,
     me
-  ]), U(() => {
+  ]), Z(() => {
     var b, J;
-    if (f)
-      return ve ? (b = I.current) == null || b.addEventListener("mouseleave", Ue) : (J = I.current) == null || J.addEventListener("mouseenter", Re), () => {
+    if (z)
+      return ve ? (b = I.current) == null || b.addEventListener("mouseleave", Ze) : (J = I.current) == null || J.addEventListener("mouseenter", Ue), () => {
         var je, Je;
-        ve ? (je = I.current) == null || je.removeEventListener("mouseleave", Ue) : (Je = I.current) == null || Je.removeEventListener("mouseenter", Re);
+        ve ? (je = I.current) == null || je.removeEventListener("mouseleave", Ze) : (Je = I.current) == null || Je.removeEventListener("mouseenter", Ue);
       };
-  }, [ve, f]), U(() => {
+  }, [ve, z]), Z(() => {
     var J;
     if (!v || !I.current || r || Ne)
       return;
@@ -411,19 +411,19 @@ const ft = ({
       _();
       return;
     }
-    Ce.current = [];
+    Re.current = [];
     const b = v.getChannelData(0);
     return s({
       bufferData: b,
       height: $,
       width: me,
-      barWidth: C,
+      barWidth: R,
       gap: B
-    }), (J = I.current) == null || J.addEventListener("mousemove", Be), () => {
+    }), (J = I.current) == null || J.addEventListener("mousemove", Ce), () => {
       var je;
       (je = I.current) == null || je.removeEventListener(
         "mousemove",
-        Be
+        Ce
       );
     };
   }, [
@@ -433,8 +433,8 @@ const ft = ({
     Ie,
     ge,
     Ne
-  ]), U(() => {
-    if (!(k || !(re != null && re.length) || !I.current || z)) {
+  ]), Z(() => {
+    if (!(k || !(re != null && re.length) || !I.current || f)) {
       if (a) {
         c([]);
         return;
@@ -442,7 +442,7 @@ const ft = ({
       ct({
         barsData: re,
         canvas: I.current,
-        barWidth: C,
+        barWidth: R,
         gap: B,
         backgroundColor: P,
         mainBarColor: O,
@@ -460,38 +460,38 @@ const ft = ({
     P,
     O,
     q
-  ]), U(() => {
-    z && I.current && Ge({
+  ]), Z(() => {
+    f && I.current && Be({
       canvas: I.current,
       backgroundColor: P
     });
-  }, [z]);
+  }, [f]);
   function M() {
     if (!te.current || !I.current)
       return;
-    ze.current = fe;
+    fe.current = ze;
     const b = Math.trunc(
       te.current.clientHeight * window.devicePixelRatio / 2
     ) * 2;
-    H(te.current.clientWidth), l(b), ke(
+    H(te.current.clientWidth), l(b), Ye(
       Math.round(
         te.current.clientWidth * window.devicePixelRatio
       )
     ), Oe(!1);
   }
   function W() {
-    Q(!1), ie(!1), t != null && t.current && !T && (t.current.src = N);
+    Q(!1), ie(!1), t != null && t.current && !T && (t.current.src = A);
   }
-  const Re = () => {
+  const Ue = () => {
     He(!0);
-  }, Ue = () => {
+  }, Ze = () => {
     He(!1);
-  }, Be = (b) => {
+  }, Ce = (b) => {
     x(b.offsetX);
   }, rt = (b) => {
     if (t != null && t.current && I.current) {
       const J = i / d * (b.clientX - I.current.getBoundingClientRect().left);
-      t.current.currentTime = J, R(J);
+      t.current.currentTime = J, U(J);
     }
   }, We = h / i * d;
   return /* @__PURE__ */ ne("div", { className: `voice-visualizer ${be ?? ""}`, children: [
@@ -525,7 +525,7 @@ const ft = ({
                 onClick: p,
                 className: "voice-visualizer__canvas-microphone-btn",
                 children: /* @__PURE__ */ o(
-                  ft,
+                  zt,
                   {
                     color: De,
                     stroke: 0.5,
@@ -535,7 +535,7 @@ const ft = ({
               }
             )
           ] }),
-          le && z && /* @__PURE__ */ o(
+          le && f && /* @__PURE__ */ o(
             "p",
             {
               className: `voice-visualizer__canvas-audio-processing ${E ?? ""}`,
@@ -543,7 +543,7 @@ const ft = ({
               children: "Processing Audio..."
             }
           ),
-          ve && f && !z && !de && Ee && /* @__PURE__ */ o(
+          ve && z && !f && !de && Ee && /* @__PURE__ */ o(
             "div",
             {
               className: `voice-visualizer__progress-indicator-hovered ${xe ?? ""}`,
@@ -563,7 +563,7 @@ const ft = ({
               )
             }
           ),
-          ue && f && !z && i ? /* @__PURE__ */ o(
+          ue && z && !f && i ? /* @__PURE__ */ o(
             "div",
             {
               className: `voice-visualizer__progress-indicator ${_e ?? ""}`,
@@ -573,7 +573,7 @@ const ft = ({
               children: he && /* @__PURE__ */ o(
                 "p",
                 {
-                  className: `voice-visualizer__progress-indicator-time ${d - h * d / i < 70 ? "voice-visualizer__progress-indicator-time-left" : ""} ${Fe ?? ""}`,
+                  className: `voice-visualizer__progress-indicator-time ${d - h * d / i < 70 ? "voice-visualizer__progress-indicator-time-left" : ""} ${ke ?? ""}`,
                   children: ce
                 }
               )
@@ -585,7 +585,7 @@ const ft = ({
     ae && /* @__PURE__ */ ne(Qe, { children: [
       /* @__PURE__ */ ne("div", { className: "voice-visualizer__audio-info-container", children: [
         r && /* @__PURE__ */ o("p", { className: "voice-visualizer__audio-info-time", children: F }),
-        i && !z ? /* @__PURE__ */ o("p", { children: Z }) : null
+        i && !f ? /* @__PURE__ */ o("p", { children: C }) : null
       ] }),
       /* @__PURE__ */ ne("div", { className: "voice-visualizer__buttons-container", children: [
         r && /* @__PURE__ */ o("div", { className: "voice-visualizer__btn-container", children: /* @__PURE__ */ o(
@@ -607,11 +607,11 @@ const ft = ({
           {
             className: `voice-visualizer__btn-left ${r || w ? "voice-visualizer__visually-hidden" : ""}`,
             onClick: L,
-            disabled: z,
+            disabled: f,
             children: /* @__PURE__ */ o(
               "img",
               {
-                src: j ? zt : Ke,
+                src: j ? ft : Ke,
                 alt: j ? "Play" : "Pause"
               }
             )
@@ -633,7 +633,7 @@ const ft = ({
           "button",
           {
             className: `voice-visualizer__btn-center voice-visualizer__btn-center-pause ${r ? "" : "voice-visualizer__visually-hidden"}`,
-            onClick: A,
+            onClick: y,
             children: /* @__PURE__ */ o("img", { src: Mt, alt: "Stop" })
           }
         ),
@@ -642,7 +642,7 @@ const ft = ({
           {
             onClick: _,
             className: `voice-visualizer__btn ${Y ?? ""}`,
-            disabled: z,
+            disabled: f,
             children: "Clear"
           }
         ),
@@ -651,7 +651,7 @@ const ft = ({
           {
             onClick: D,
             className: `voice-visualizer__btn ${Y ?? ""}`,
-            disabled: z,
+            disabled: f,
             children: "Download Audio"
           }
         )
@@ -666,30 +666,30 @@ function wt({
   onStopRecording: n,
   onPausedRecording: i,
   onResumedRecording: h,
-  onClearCanvas: N,
+  onClearCanvas: A,
   onEndAudioPlayback: v,
   onStartAudioPlayback: L,
   onPausedAudioPlayback: p,
-  onResumedAudioPlayback: A,
+  onResumedAudioPlayback: y,
   onErrorPlayingAudio: D
 } = {}) {
-  const [f, j] = u(!1), [m, w] = u(!1), [z, a] = u(null), [Z, F] = u(new Uint8Array(0)), [ce, _] = u(!1), [R, T] = u(null), [Q, ie] = u(null), [Me, V] = u(0), [pe, P] = u(0), [O, q] = u(0), [ge, Ie] = u(""), [se, ae] = u(!0), [oe, X] = u(0), [K, k] = u(!0), [we, De] = u(!1), [Te, be] = u(!1), [Le, ue] = u(null), [_e, he] = u(!1), [Fe, Ee] = u(0), [xe, $e] = u(0), g = S(null), le = S(""), E = S(null), Y = S(null), G = S(null), x = S(null), d = S(null), H = S(null), $ = S(null), l = S(null), me = !!(Q && !ce), ke = ht(O), ve = at(Me), He = tt(oe), Pe = we || ce;
-  U(() => {
-    if (!f || m)
+  const [z, j] = u(!1), [m, w] = u(!1), [f, a] = u(null), [C, F] = u(new Uint8Array(0)), [ce, _] = u(!1), [U, T] = u(null), [Q, ie] = u(null), [Me, V] = u(0), [pe, P] = u(0), [O, q] = u(0), [ge, Ie] = u(""), [se, ae] = u(!0), [oe, X] = u(0), [K, k] = u(!0), [we, De] = u(!1), [Te, be] = u(!1), [Le, ue] = u(null), [_e, he] = u(!1), [ke, Ee] = u(0), [xe, $e] = u(0), g = N(null), le = N(""), E = N(null), Y = N(null), G = N(null), x = N(null), d = N(null), H = N(null), $ = N(null), l = N(null), me = !!(Q && !ce), Ye = ht(O), ve = at(Me), He = tt(oe), Pe = we || ce;
+  Z(() => {
+    if (!z || m)
       return;
     const s = setInterval(() => {
-      const y = performance.now();
-      V((M) => M + (y - pe)), P(y);
+      const S = performance.now();
+      V((M) => M + (S - pe)), P(S);
     }, 1e3);
     return () => clearInterval(s);
-  }, [pe, m, f]), U(() => {
+  }, [pe, m, z]), Z(() => {
     if (Le) {
       ee();
       return;
     }
-  }, [Le]), U(() => () => {
+  }, [Le]), Z(() => () => {
     ee();
-  }, []), U(() => (K || window.addEventListener("beforeunload", Se), () => {
+  }, []), Z(() => (K || window.addEventListener("beforeunload", Se), () => {
     window.removeEventListener("beforeunload", Se);
   }), [K]);
   const Se = (c) => {
@@ -701,7 +701,7 @@ function wt({
           throw new Error("Error: The audio blob is empty");
         const s = URL.createObjectURL(c);
         Ie(s);
-        const y = await c.arrayBuffer(), W = await new AudioContext().decodeAudioData(y);
+        const S = await c.arrayBuffer(), W = await new AudioContext().decodeAudioData(S);
         ie(W), q(W.duration - 0.06), ue(null);
       } catch (s) {
         console.error("Error processing the audio blob:", s), ue(
@@ -713,26 +713,35 @@ function wt({
   }, de = (c) => {
     if (!(e != null && e.usePCM) || !e.onPCMAvailable || m)
       return;
-    const s = c.inputBuffer, y = s.getChannelData(0), M = new Float32Array(y), W = !f || m, Re = {
+    const s = c.inputBuffer, S = s.getChannelData(0), M = new Float32Array(S), W = !z || m, Ue = e.pcmSampleRate || s.sampleRate, Ze = {
       recordingId: le.current,
       chunkSequence: xe,
-      sampleRate: s.sampleRate,
+      sampleRate: Ue,
       isLastChunk: W
     };
-    e.onPCMAvailable(M, Re), $e((Ue) => Ue + 1);
-  }, fe = () => {
+    e.onPCMAvailable(M, Ze), $e((Ce) => Ce + 1);
+  }, ze = () => {
     he(!0), le.current = `rec_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`, Ee(0), $e(0), navigator.mediaDevices.getUserMedia({
       audio: t ? { deviceId: t } : !0
     }).then((c) => {
-      k(!1), he(!1), j(!0), P(performance.now()), a(c), E.current = new window.AudioContext(), Y.current = E.current.createAnalyser(), G.current = new Uint8Array(
+      if (k(!1), he(!1), j(!0), P(performance.now()), a(c), E.current = new window.AudioContext(), Y.current = E.current.createAnalyser(), G.current = new Uint8Array(
         Y.current.frequencyBinCount
-      ), x.current = E.current.createMediaStreamSource(c), x.current.connect(Y.current), e != null && e.usePCM && e.onPCMAvailable && (d.current = E.current.createScriptProcessor(
-        4096,
-        1,
-        // input channels
-        1
-        // output channels
-      ), x.current.connect(d.current), d.current.connect(E.current.destination), d.current.addEventListener("audioprocess", de)), g.current = new MediaRecorder(c), g.current.addEventListener(
+      ), x.current = E.current.createMediaStreamSource(c), x.current.connect(Y.current), e != null && e.usePCM && e.onPCMAvailable) {
+        const s = e.pcmBufferSize || 4096;
+        d.current = E.current.createScriptProcessor(
+          s,
+          1,
+          // input channels
+          1
+          // output channels
+        ), x.current.connect(d.current), d.current.connect(
+          E.current.destination
+        ), d.current.addEventListener(
+          "audioprocess",
+          de
+        );
+      }
+      g.current = new MediaRecorder(c), g.current.addEventListener(
         "dataavailable",
         Ae
       ), e != null && e.enabled && e.timeslice ? g.current.start(e.timeslice) : g.current.start(), r && r(), B();
@@ -743,13 +752,13 @@ function wt({
     });
   }, B = () => {
     Y.current.getByteTimeDomainData(G.current), F(new Uint8Array(G.current)), H.current = requestAnimationFrame(B);
-  }, C = (c, s = !1) => {
-    var y;
+  }, R = (c, s = !1) => {
+    var S;
     if (!(!e || !e.enabled || !e.onChunkAvailable) && c.size > 0) {
       const M = {
         recordingId: le.current,
-        chunkSequence: Fe,
-        mimeType: ((y = g.current) == null ? void 0 : y.mimeType) || "audio/webm",
+        chunkSequence: ke,
+        mimeType: ((S = g.current) == null ? void 0 : S.mimeType) || "audio/webm",
         isLastChunk: s
       };
       e.onChunkAvailable(c, M), Ee((W) => W + 1);
@@ -757,36 +766,42 @@ function wt({
   }, Ae = (c) => {
     if (e != null && e.enabled && c.data.size > 0) {
       const s = !g.current || g.current.state === "inactive";
-      C(c.data, s);
+      R(c.data, s);
     }
     g.current || (l.current = new Audio(), T(c.data), Ne(c.data));
   }, I = () => {
     l.current && (X(l.current.currentTime), $.current = requestAnimationFrame(I));
-  }, Ce = () => {
-    f || _e || (K || ee(), fe());
-  }, ze = () => {
+  }, Re = () => {
+    z || _e || (K || ee(), ze());
+  }, fe = () => {
     var c;
-    if (f) {
+    if (z) {
       if (j(!1), e != null && e.usePCM && e.onPCMAvailable && d.current) {
-        const s = {
+        const s = e.pcmSampleRate || ((c = E.current) == null ? void 0 : c.sampleRate) || 44100, S = {
           recordingId: le.current,
           chunkSequence: xe,
-          sampleRate: ((c = E.current) == null ? void 0 : c.sampleRate) || 44100,
+          sampleRate: s,
           isLastChunk: !0
         };
-        e.onPCMAvailable(new Float32Array(0), s), d.current.removeEventListener("audioprocess", de), x.current && x.current.disconnect(d.current), d.current.disconnect();
+        e.onPCMAvailable(new Float32Array(0), S), d.current.removeEventListener(
+          "audioprocess",
+          de
+        ), x.current && x.current.disconnect(d.current), d.current.disconnect();
       }
       g.current && (g.current.stop(), g.current.removeEventListener(
         "dataavailable",
         Ae
-      )), z == null || z.getTracks().forEach((s) => s.stop()), H.current && cancelAnimationFrame(H.current), x.current && x.current.disconnect(), E.current && E.current.state !== "closed" && E.current.close(), _(!0), V(0), w(!1), n && n();
+      )), f == null || f.getTracks().forEach((s) => s.stop()), H.current && cancelAnimationFrame(H.current), x.current && x.current.disconnect(), E.current && E.current.state !== "closed" && E.current.close(), _(!0), V(0), w(!1), n && n();
     }
   }, ee = () => {
     H.current && (cancelAnimationFrame(H.current), H.current = null), $.current && (cancelAnimationFrame($.current), $.current = null), g.current && (g.current.removeEventListener(
       "dataavailable",
       Ae
-    ), g.current.stop(), g.current = null), d.current && (d.current.removeEventListener("audioprocess", de), x.current && x.current.disconnect(d.current), d.current.disconnect(), d.current = null), z == null || z.getTracks().forEach((c) => c.stop()), l != null && l.current && (l.current.removeEventListener("ended", ye), l.current.pause(), l.current.src = "", l.current = null), E.current = null, Y.current = null, G.current = null, x.current = null, a(null), he(!1), j(!1), be(!1), _(!1), T(null), ie(null), V(0), P(0), q(0), Ie(""), X(0), ae(!0), w(!1), De(!1), F(new Uint8Array(0)), ue(null), k(!0), N && N();
-  }, Ye = () => {
+    ), g.current.stop(), g.current = null), d.current && (d.current.removeEventListener(
+      "audioprocess",
+      de
+    ), x.current && x.current.disconnect(d.current), d.current.disconnect(), d.current = null), f == null || f.getTracks().forEach((c) => c.stop()), l != null && l.current && (l.current.removeEventListener("ended", ye), l.current.pause(), l.current.src = "", l.current = null), E.current = null, Y.current = null, G.current = null, x.current = null, a(null), he(!1), j(!1), be(!1), _(!1), T(null), ie(null), V(0), P(0), q(0), Ie(""), X(0), ae(!0), w(!1), De(!1), F(new Uint8Array(0)), ue(null), k(!0), A && A();
+  }, Ge = () => {
     if (l.current && l.current.paused) {
       const c = l.current.play();
       c !== void 0 && c.catch((s) => {
@@ -796,14 +811,14 @@ function wt({
       });
     }
   }, te = () => {
-    var c, s, y;
-    if (f) {
-      w((M) => !M), ((c = g.current) == null ? void 0 : c.state) === "recording" ? ((s = g.current) == null || s.pause(), V((M) => M + (performance.now() - pe)), H.current && cancelAnimationFrame(H.current), i && i()) : (H.current = requestAnimationFrame(B), (y = g.current) == null || y.resume(), P(performance.now()), h && h());
+    var c, s, S;
+    if (z) {
+      w((M) => !M), ((c = g.current) == null ? void 0 : c.state) === "recording" ? ((s = g.current) == null || s.pause(), V((M) => M + (performance.now() - pe)), H.current && cancelAnimationFrame(H.current), i && i()) : (H.current = requestAnimationFrame(B), (S = g.current) == null || S.resume(), P(performance.now()), h && h());
       return;
     }
     if (l.current && me)
       if (l.current.paused)
-        requestAnimationFrame(I), Ye(), l.current.addEventListener("ended", ye), ae(!1), L && oe === 0 && L(), A && oe !== 0 && A();
+        requestAnimationFrame(I), Ge(), l.current.addEventListener("ended", ye), ae(!1), L && oe === 0 && L(), y && oe !== 0 && y();
       else {
         $.current && cancelAnimationFrame($.current), l.current.removeEventListener("ended", ye), l.current.pause(), ae(!0);
         const M = l.current.currentTime;
@@ -812,18 +827,18 @@ function wt({
   }, ye = () => {
     $.current && cancelAnimationFrame($.current), ae(!0), X(0), l.current && (l.current.currentTime = 0), v && v();
   }, re = () => {
-    if (!R)
+    if (!U)
       return;
     const c = ut(
-      R.type || "audio/webm"
-    ), s = `recording-${(/* @__PURE__ */ new Date()).toISOString()}.${c}`, y = URL.createObjectURL(R), M = document.createElement("a");
-    document.body.appendChild(M), M.style.display = "none", M.href = y, M.download = s, M.click(), window.URL.revokeObjectURL(y);
+      U.type || "audio/webm"
+    ), s = `recording-${(/* @__PURE__ */ new Date()).toISOString()}.${c}`, S = URL.createObjectURL(U), M = document.createElement("a");
+    document.body.appendChild(M), M.style.display = "none", M.href = S, M.download = s, M.click(), window.URL.revokeObjectURL(S);
   };
   return {
     audioRef: l,
-    isRecordingInProgress: f,
+    isRecordingInProgress: z,
     isPausedRecording: m,
-    audioData: Z,
+    audioData: C,
     recordingTime: Me,
     mediaRecorder: g.current,
     duration: O,
@@ -833,14 +848,14 @@ function wt({
     isProcessingRecordedAudio: Pe,
     isCleared: K,
     isAvailableRecordedAudio: me,
-    recordedBlob: R,
+    recordedBlob: U,
     bufferFromRecordedBlob: Q,
-    formattedDuration: ke,
+    formattedDuration: Ye,
     formattedRecordingTime: ve,
     formattedRecordedAudioCurrentTime: He,
-    startRecording: Ce,
+    startRecording: Re,
     togglePauseResume: te,
-    stopRecording: ze,
+    stopRecording: fe,
     saveAudioFile: re,
     clearCanvas: ee,
     setCurrentAudioTime: X,

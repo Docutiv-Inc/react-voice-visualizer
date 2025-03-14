@@ -104,6 +104,7 @@ export interface AudioStreamConfig {
     usePCM?: boolean;
     onPCMAvailable?: (pcmData: Float32Array, metadata: PCMChunkMetadata) => void;
     pcmSampleRate?: number;
+    pcmBufferSize?: number;
 }
 export interface AudioChunkMetadata {
     recordingId: string;
