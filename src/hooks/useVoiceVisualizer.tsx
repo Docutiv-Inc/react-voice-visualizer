@@ -6,7 +6,7 @@ import {
   formatRecordingTime,
   getFileExtensionFromMimeType,
 } from "../helpers";
-import { Controls, useVoiceVisualizerParams } from "../types/types.ts";
+import { Controls, useVoiceVisualizerParams, PCMChunkMetadata } from "../types/types.ts";
 
 function useVoiceVisualizer({
   inputDeviceId,
@@ -44,6 +44,7 @@ function useVoiceVisualizer({
   const [isProcessingStartRecording, setIsProcessingStartRecording] =
     useState(false);
   const [chunkSequence, setChunkSequence] = useState(0);
+  const [pcmChunkSequence, setPcmChunkSequence] = useState(0);
   
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const recordingIdRef = useRef<string>("");
@@ -51,6 +52,7 @@ function useVoiceVisualizer({
   const analyserRef = useRef<AnalyserNode | null>(null);
   const dataArrayRef = useRef<Uint8Array | null>(null);
   const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
+  const scriptProcessorRef = useRef<ScriptProcessorNode | null>(null);
   const rafRecordingRef = useRef<number | null>(null);
   const rafCurrentTimeUpdateRef = useRef<number | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -151,13 +153,41 @@ function useVoiceVisualizer({
     }
   };
 
+  const handlePCMData = (audioProcessingEvent: AudioProcessingEvent) => {
+    if (!streamConfig?.usePCM || !streamConfig.onPCMAvailable || isPausedRecording) {
+      return;
+    }
+    
+    // Get PCM data from the input buffer
+    const inputBuffer = audioProcessingEvent.inputBuffer;
+    const channelData = inputBuffer.getChannelData(0); // Get data from first channel
+    
+    // Create a copy of the data since the original buffer will be reused
+    const pcmData = new Float32Array(channelData);
+    
+    const isLastChunk = !isRecordingInProgress || isPausedRecording;
+    
+    // Create metadata for the PCM chunk
+    const metadata: PCMChunkMetadata = {
+      recordingId: recordingIdRef.current,
+      chunkSequence: pcmChunkSequence,
+      sampleRate: inputBuffer.sampleRate,
+      isLastChunk
+    };
+    
+    // Send PCM data to callback
+    streamConfig.onPCMAvailable(pcmData, metadata);
+    setPcmChunkSequence(prev => prev + 1);
+  };
+
   const getUserMedia = () => {
     setIsProcessingStartRecording(true);
     
     // Generate a unique recording ID for this session
     recordingIdRef.current = `rec_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-    // Reset chunk sequence counter
+    // Reset chunk sequence counters
     setChunkSequence(0);
+    setPcmChunkSequence(0);
 
     navigator.mediaDevices
       .getUserMedia({
@@ -177,6 +207,25 @@ function useVoiceVisualizer({
         sourceRef.current =
           audioContextRef.current.createMediaStreamSource(stream);
         sourceRef.current.connect(analyserRef.current);
+        
+        // Set up PCM processing if enabled
+        if (streamConfig?.usePCM && streamConfig.onPCMAvailable) {
+          // Use ScriptProcessorNode for PCM data (will be replaced with AudioWorklet in future)
+          const bufferSize = 4096;
+          scriptProcessorRef.current = audioContextRef.current.createScriptProcessor(
+            bufferSize, 
+            1, // input channels
+            1  // output channels
+          );
+          
+          // Connect the processor to the source and destination
+          sourceRef.current.connect(scriptProcessorRef.current);
+          scriptProcessorRef.current.connect(audioContextRef.current.destination);
+          
+          // Add event listener for processing audio
+          scriptProcessorRef.current.addEventListener('audioprocess', handlePCMData);
+        }
+        
         mediaRecorderRef.current = new MediaRecorder(stream);
         mediaRecorderRef.current.addEventListener(
           "dataavailable",
@@ -262,6 +311,27 @@ function useVoiceVisualizer({
     if (!isRecordingInProgress) return;
 
     setIsRecordingInProgress(false);
+    
+    // Send final PCM chunk if PCM streaming is enabled
+    if (streamConfig?.usePCM && streamConfig.onPCMAvailable && scriptProcessorRef.current) {
+      const metadata: PCMChunkMetadata = {
+        recordingId: recordingIdRef.current,
+        chunkSequence: pcmChunkSequence,
+        sampleRate: audioContextRef.current?.sampleRate || 44100,
+        isLastChunk: true
+      };
+      
+      // Send an empty array as the final chunk to signal the end
+      streamConfig.onPCMAvailable(new Float32Array(0), metadata);
+      
+      // Disconnect and clean up the script processor
+      scriptProcessorRef.current.removeEventListener('audioprocess', handlePCMData);
+      if (sourceRef.current) {
+        sourceRef.current.disconnect(scriptProcessorRef.current);
+      }
+      scriptProcessorRef.current.disconnect();
+    }
+    
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
       mediaRecorderRef.current.removeEventListener(
@@ -297,6 +367,16 @@ function useVoiceVisualizer({
       );
       mediaRecorderRef.current.stop();
       mediaRecorderRef.current = null;
+    }
+
+    // Clean up script processor if it exists
+    if (scriptProcessorRef.current) {
+      scriptProcessorRef.current.removeEventListener('audioprocess', handlePCMData);
+      if (sourceRef.current) {
+        sourceRef.current.disconnect(scriptProcessorRef.current);
+      }
+      scriptProcessorRef.current.disconnect();
+      scriptProcessorRef.current = null;
     }
 
     audioStream?.getTracks().forEach((track) => track.stop());
@@ -399,24 +479,28 @@ function useVoiceVisualizer({
       cancelAnimationFrame(rafCurrentTimeUpdateRef.current);
     }
     setIsPausedRecordedAudio(true);
-    if (!audioRef?.current) return;
-    audioRef.current.currentTime = 0;
     setCurrentAudioTime(0);
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+    }
     if (onEndAudioPlayback) onEndAudioPlayback();
   };
 
   const saveAudioFile = () => {
-    if (!audioSrc) return;
+    if (!recordedBlob) return;
 
-    const downloadAnchor = document.createElement("a");
-    downloadAnchor.href = audioSrc;
-    downloadAnchor.download = `recorded_audio${getFileExtensionFromMimeType(
-      mediaRecorderRef.current?.mimeType,
-    )}`;
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    document.body.removeChild(downloadAnchor);
-    URL.revokeObjectURL(audioSrc);
+    const fileExtension = getFileExtensionFromMimeType(
+      recordedBlob.type || "audio/webm",
+    );
+    const fileName = `recording-${new Date().toISOString()}.${fileExtension}`;
+    const url = URL.createObjectURL(recordedBlob);
+    const a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style.display = "none";
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    window.URL.revokeObjectURL(url);
   };
 
   return {
@@ -425,16 +509,16 @@ function useVoiceVisualizer({
     isPausedRecording,
     audioData,
     recordingTime,
-    isProcessingRecordedAudio,
-    recordedBlob,
     mediaRecorder: mediaRecorderRef.current,
     duration,
     currentAudioTime,
     audioSrc,
     isPausedRecordedAudio,
-    bufferFromRecordedBlob,
+    isProcessingRecordedAudio,
     isCleared,
     isAvailableRecordedAudio,
+    recordedBlob,
+    bufferFromRecordedBlob,
     formattedDuration,
     formattedRecordingTime,
     formattedRecordedAudioCurrentTime,

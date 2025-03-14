@@ -110,12 +110,22 @@ export interface AudioStreamConfig {
   enabled: boolean;
   timeslice?: number;
   onChunkAvailable?: (chunk: Blob, metadata: AudioChunkMetadata) => void;
+  usePCM?: boolean;
+  onPCMAvailable?: (pcmData: Float32Array, metadata: PCMChunkMetadata) => void;
+  pcmSampleRate?: number;
 }
 
 export interface AudioChunkMetadata {
   recordingId: string;
   chunkSequence: number;
   mimeType: string;
+  isLastChunk: boolean;
+}
+
+export interface PCMChunkMetadata {
+  recordingId: string;
+  chunkSequence: number;
+  sampleRate: number;
   isLastChunk: boolean;
 }
 
